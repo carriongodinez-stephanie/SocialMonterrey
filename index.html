@@ -187,6 +187,21 @@ tbody td{padding:13px 20px;font-size:12px;color:var(--dark)}
 
 /* ── DIVIDERS & SPACING ── */
 .divider{height:1px;background:var(--border);margin:8px 0}
+.servicios-header{display:grid;grid-template-columns:1fr 120px 90px 110px 36px;gap:8px;padding:8px 14px;background:var(--dark2);border-radius:8px;margin-bottom:8px}
+.servicios-header span{font-size:9px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+.servicio-row{display:grid;grid-template-columns:1fr 120px 90px 110px 36px;gap:8px;align-items:center;margin-bottom:8px;background:var(--surface2);border-radius:10px;padding:10px 12px}
+.servicio-row input{background:white;border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:7px 9px;font-size:12px;font-family:'Montserrat',sans-serif;width:100%;outline:none}
+.servicio-row input:focus{border-color:var(--gold)}
+.srv-subtotal{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--gold);text-align:right}
+.total-evento-bar{background:var(--dark2);border-radius:14px;padding:18px 22px;margin:14px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.teb-left .teb-label{font-size:9px;color:rgba(255,255,255,.4);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.teb-left .teb-val{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:var(--gold)}
+.teb-right{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.teb-item{display:flex;flex-direction:column;gap:4px;min-width:110px}
+.teb-item label{font-size:9px;color:rgba(255,255,255,.4);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.teb-item input,.teb-item select{background:rgba(255,255,255,.08);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:7px 10px;font-size:12px;font-family:'Montserrat',sans-serif;color:white;outline:none;width:100%}
+.teb-item select option{background:#1A2E4A;color:white}
+.teb-saldo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold-l);padding:7px 0}
 footer{text-align:center;padding:40px 0 0;font-size:10px;color:var(--muted);letter-spacing:1px}
 
 /* FORM SECTIONS */
@@ -371,10 +386,8 @@ footer strong{color:var(--gold)}
   <!-- NAV TABS -->
   <div class="tabs-bar">
     <button class="tab active" onclick="showTab('dashboard')"><i class="ti ti-chart-bar"></i> Dashboard</button>
-    <button class="tab" onclick="showTab('evento')"><i class="ti ti-confetti"></i> Nuevo Evento</button>
-    <button class="tab" onclick="showTab('regalo')"><i class="ti ti-gift"></i> Nuevo Regalo</button>
     <button class="tab" onclick="showTab('venta')"><i class="ti ti-confetti"></i> Nuevo Evento</button>
-    <button class="tab" onclick="showTab('compra')"><i class="ti ti-shopping-cart"></i> Nueva Compra</button>
+    <button class="tab" onclick="showTab('regalo')"><i class="ti ti-gift"></i> Nuevo Regalo</button>
     <button class="tab" onclick="showTab('calendario')"><i class="ti ti-calendar"></i> Calendario</button>
   </div>
 
@@ -556,157 +569,95 @@ footer strong{color:var(--gold)}
     </div>
   </div>
 
-  <!-- FORM: NUEVA VENTA -->
+  <!-- FORM: NUEVO EVENTO -->
   <div id="tab-venta" class="tab-content" style="display:none">
-    <div class="form-wrap">
+    <div class="form-wrap" style="max-width:860px">
       <div class="form-header">
-        <div class="fh-icon">💰</div>
-        <div><h2>Registrar Venta</h2><p>Se guardará directo en tu Google Sheets</p></div>
+        <div class="fh-icon">&#127881;</div>
+        <div><h2>Nuevo Evento</h2><p>Captura todos los detalles del evento</p></div>
       </div>
-      <div class="form-grid">
+      <div class="form-section-title">Datos del Evento</div>
+      <div class="form-grid form-grid-3">
+        <div class="fg">
+          <label>Nombre del Evento *</label>
+          <input type="text" id="v-evento" placeholder="Ej: Boda Garcia, XV Valeria..." list="eventos-datalist-v" autocomplete="off">
+          <datalist id="eventos-datalist-v"></datalist>
+        </div>
+        <div class="fg"><label>Tematica *</label>
+          <input type="text" id="v-tematica" placeholder="Ej: Frozen, Jardin..."></div>
         <div class="fg"><label>Fecha *</label><input type="date" id="v-fecha"></div>
-        <div class="fg"><label>Evento / Temporada * <span style="font-size:9px;color:var(--gold);font-weight:600">(nuevo = se agrega)</span></label>
-          <input type="text" id="v-evento" placeholder="Escribe o elige un evento..." list="eventos-datalist-v" autocomplete="off">
-          <datalist id="eventos-datalist-v"></datalist></div>
-        <div class="fg"><label>Cliente *</label><input type="text" id="v-cliente" placeholder="Nombre del cliente"></div>
-        <div class="fg"><label>Contacto / Teléfono</label><input type="text" id="v-contacto" placeholder="+52 81 ..."></div>
-        <div class="fg"><label>Producto / Servicio *</label><input type="text" id="v-producto" placeholder="Ej: Decoración Frozen"></div>
-        <div class="fg"><label>Cantidad *</label><input type="number" id="v-cantidad" min="1" value="1"></div>
-        <div class="fg"><label>Precio Unitario *</label><input type="number" id="v-precio" placeholder="0.00" step="0.01"></div>
-        <div class="fg fg-calc">
-          <label>Total Venta</label>
-          <div class="calc-val" id="v-total">/bin/sh.00</div>
-        </div>
-        <div class="fg"><label>Anticipo Recibido</label><input type="number" id="v-anticipo" placeholder="0.00" step="0.01"></div>
-        <div class="fg fg-calc">
-          <label>Saldo Pendiente</label>
-          <div class="calc-val" id="v-saldo">/bin/sh.00</div>
-        </div>
-        <div class="fg"><label>Método de Cobro</label>
-          <select id="v-metodo">
-            <option>Efectivo</option><option>Transferencia</option>
-            <option>Tarjeta débito</option><option>Tarjeta crédito</option>
-            <option>TD-Empresarial</option><option>TD-Banregio</option><option>Otro</option>
+        <div class="fg"><label>Cliente *</label>
+          <input type="text" id="v-cliente" placeholder="Nombre completo"></div>
+        <div class="fg"><label>WhatsApp *</label>
+          <input type="tel" id="v-whatsapp" placeholder="+52 81 1234 5678"></div>
+        <div class="fg"><label>Interior / Exterior</label>
+          <select id="v-lugar">
+            <option value="">Selecciona...</option>
+            <option>Interior</option><option>Exterior</option><option>Interior y Exterior</option>
           </select></div>
-        <div class="fg"><label>Descripción / Notas</label>
-          <input type="text" id="v-notas" placeholder="Detalles adicionales..."></div>
+        <div class="fg"><label>Hora del Evento</label><input type="time" id="v-hora-evento"></div>
+        <div class="fg"><label>Hora de Montaje</label><input type="time" id="v-hora-montaje"></div>
+        <div class="fg"><label>Hora de Desmontaje</label><input type="time" id="v-hora-desmontaje"></div>
+      </div>
+      <div class="form-section-title">Servicios del Evento</div>
+      <div class="servicios-header">
+        <span>Descripcion</span><span>Precio</span><span>Cant.</span><span>Subtotal</span><span></span>
+      </div>
+      <div id="v-servicios-list"></div>
+      <button class="btn-add-product" onclick="agregarServicio()">+ Agregar servicio</button>
+      <div class="total-evento-bar">
+        <div class="teb-left">
+          <div class="teb-label">TOTAL DEL EVENTO</div>
+          <div class="teb-val" id="v-total-display">$0.00</div>
+        </div>
+        <div class="teb-right">
+          <div class="teb-item">
+            <label>Anticipo</label>
+            <input type="number" id="v-anticipo" placeholder="0.00" step="0.01" oninput="calcEvento2()">
+          </div>
+          <div class="teb-item">
+            <label>Saldo Pendiente</label>
+            <div class="teb-saldo" id="v-saldo">$0.00</div>
+          </div>
+          <div class="teb-item">
+            <label>Metodo de Cobro</label>
+            <select id="v-metodo">
+              <option>Efectivo</option><option>Transferencia</option>
+              <option>Tarjeta debito</option><option>TD-Empresarial</option>
+              <option>TD-Banregio</option><option>Otro</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-section-title">Notas y Archivos</div>
+      <div class="form-grid form-grid-3">
+        <div class="fg" style="grid-column:1/-1">
+          <label>Notas Adicionales</label>
+          <textarea id="v-notas" rows="3" placeholder="Requerimientos especiales..."></textarea>
+        </div>
+        <div class="fg"><label>Propuesta Visual (Drive)</label>
+          <input type="url" id="v-propuesta" placeholder="https://drive.google.com/..."></div>
+        <div class="fg"><label>Contrato (Drive)</label>
+          <input type="url" id="v-contrato" placeholder="https://drive.google.com/..."></div>
+        <div class="fg"><label>Como nos contacto?</label>
+          <select id="v-contacto-origen">
+            <option value="">Selecciona...</option>
+            <option>Instagram</option><option>Facebook</option>
+            <option>WhatsApp directo</option><option>Recomendacion</option>
+            <option>Google</option><option>TikTok</option><option>Otro</option>
+          </select></div>
       </div>
       <div class="form-actions">
         <button class="btn-cancel" onclick="showTab('dashboard')">Cancelar</button>
         <button class="btn-save" id="btn-venta" onclick="guardarVenta()">
-          <span id="btn-venta-txt">Guardar Venta</span>
+          <span id="btn-venta-txt">Guardar Evento</span>
         </button>
       </div>
       <div id="v-msg" class="form-msg" style="display:none"></div>
     </div>
   </div>
 
-  <!-- FORM: NUEVA COMPRA -->
-  <div id="tab-compra" class="tab-content" style="display:none">
-    <div class="form-wrap">
-      <div class="form-header">
-        <div class="fh-icon">🛍️</div>
-        <div><h2>Registrar Compra</h2><p>Se guardará directo en tu Google Sheets</p></div>
-      </div>
-      <div class="form-grid">
-        <div class="fg"><label>Fecha *</label><input type="date" id="c-fecha"></div>
-        <div class="fg"><label>Evento / Temporada * <span style="font-size:9px;color:var(--gold);font-weight:600">(nuevo = se agrega)</span></label>
-          <input type="text" id="c-evento" placeholder="Escribe o elige un evento..." list="eventos-datalist-c" autocomplete="off">
-          <datalist id="eventos-datalist-c"></datalist></div>
-        <div class="fg"><label>Tienda / Comercio *</label>
-          <select id="c-tienda"><option value="">Selecciona...</option></select></div>
-        <div class="fg"><label>Categoría / Producto *</label>
-          <select id="c-categoria"><option value="">Selecciona...</option></select></div>
-        <div class="fg"><label>Descripción *</label>
-          <input type="text" id="c-desc" placeholder="¿Qué compraste?"></div>
-        <div class="fg"><label>Cantidad *</label>
-          <input type="number" id="c-cantidad" min="1" value="1"></div>
-        <div class="fg"><label>Precio Unitario *</label>
-          <input type="number" id="c-precio" placeholder="0.00" step="0.01"></div>
-        <div class="fg fg-calc">
-          <label>Total Compra</label>
-          <div class="calc-val" id="c-total">/bin/sh.00</div>
-        </div>
-        <div class="fg"><label>Método de Pago</label>
-          <select id="c-metodo">
-            <option>Efectivo</option><option>Transferencia</option>
-            <option>Tarjeta débito</option><option>Tarjeta crédito</option>
-            <option>TD-Empresarial</option><option>TD-Banregio</option><option>Otro</option>
-          </select></div>
-        <div class="fg"><label>Notas</label>
-          <input type="text" id="c-notas" placeholder="Observaciones..."></div>
-      </div>
-      <div class="form-actions">
-        <button class="btn-cancel" onclick="showTab('dashboard')">Cancelar</button>
-        <button class="btn-save" id="btn-compra" onclick="guardarCompra()">
-          <span id="btn-compra-txt">Guardar Compra</span>
-        </button>
-      </div>
-      <div id="c-msg" class="form-msg" style="display:none"></div>
-    </div>
-  </div>
-
-  <!-- DASHBOARD TAB -->
-  <div id="tab-dashboard">
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-inner">
-      <div>
-        <h2>Dashboard Ejecutivo</h2>
-        <p>MOMENTOS · EVENTOS · REGALOS · MONTERREY</p>
-      </div>
-      <div id="heroStats" style="display:flex;gap:32px;flex-wrap:wrap"></div>
-    </div>
-  </div>
-
-  <!-- MONTH SELECTOR -->
-  <div class="month-bar">
-    <span class="mb-label">📅 Período:</span>
-    <div class="month-pills" id="monthPills"></div>
-  </div>
-
-  <div class="wrap">
-
-    <!-- KPIs -->
-    <div class="sec">Indicadores Clave <span id="periodoLabel"></span></div>
-    <div class="kpi-grid" id="kpiGrid"></div>
-
-    <!-- METAS -->
-    <div class="sec">Metas del Período</div>
-    <div class="meta-grid" id="metaGrid"></div>
-
-    <!-- CHARTS -->
-    <div class="sec">Análisis Visual</div>
-    <div class="charts">
-      <div class="cc wide"><h3>Ventas vs Compras por Mes</h3><div class="csub">Comparativo mensual del año</div><div class="ch tall"><canvas id="cMensual"></canvas></div></div>
-      <div class="cc"><h3>Ventas por Evento</h3><div class="csub">Participación en ventas totales</div><div class="ch"><canvas id="cEventos"></canvas></div></div>
-      <div class="cc"><h3>Margen por Evento</h3><div class="csub">% ganancia · meta 70%</div><div class="ch"><canvas id="cMargen"></canvas></div></div>
-      <div class="cc"><h3>Estado de Cobros</h3><div class="csub">Cobrado vs saldo pendiente</div><div class="ch"><canvas id="cCobros"></canvas></div></div>
-      <div class="cc"><h3>Compras por Categoría</h3><div class="csub">Distribución del gasto</div><div class="ch"><canvas id="cCats"></canvas></div></div>
-    </div>
-
-    <!-- TABLA EVENTOS -->
-    <div class="sec">Detalle por Evento <span id="evCount"></span></div>
-    <div class="tcard">
-      <div class="thead-bar"><h3>Todos los Eventos</h3><span id="evCountBadge"></span></div>
-      <div class="tscroll">
-        <table><thead><tr>
-          <th>Evento</th><th>Ventas</th><th>Compras</th><th>Ganancia</th><th>Margen</th><th>Obj. Venta</th><th>Estado</th>
-        </tr></thead>
-        <tbody id="tablaEv"></tbody></table>
-      </div>
-    </div>
-
-    <!-- COBROS -->
-    <div class="sec">Cobros Pendientes 🔔</div>
-    <div class="cobros" id="cobrosGrid"></div>
-
-    <!-- SEMÁFORO -->
-    <div class="sec">Salud del Negocio</div>
-    <div class="sem-grid" id="semGrid"></div>
-
-    </div><!-- end tab-dashboard -->
+</div><!-- end tab-dashboard -->
   <footer><strong>Social Monterrey</strong> · Momentos | Eventos | Regalos · Dashboard en vivo</footer>
   </div>
 </div>
@@ -1203,10 +1154,11 @@ function showTab(tab){
   document.getElementById('tab-dashboard').style.display = tab==='dashboard'?'block':'none';
   if(tab!=='dashboard') document.getElementById('tab-'+tab).style.display='block';
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  const tabMap={dashboard:0,evento:1,regalo:2,venta:3,compra:4,calendario:5};
+  const tabMap={dashboard:0,venta:1,regalo:2,calendario:3};
   const idx=tabMap[tab]??0;
   document.querySelectorAll('.tab')[idx]?.classList.add('active');
   if(tab==='calendario') renderCalendario();
+  else if(tab==='venta'){ populateCatalogos(); if(!document.querySelector('#v-servicios-list .servicio-row')) agregarServicio(); }
   else if(tab==='regalo'){ populateCatalogos(); if(!document.querySelector('#rg-productos-list .producto-row')) agregarProducto(); }
   else if(tab!=='dashboard') populateCatalogos();
 }
@@ -1750,6 +1702,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   agregarProducto();
   agregarServicio();
 });
+
 
 async function loadAll(){
   document.getElementById('loading').style.display='flex';
