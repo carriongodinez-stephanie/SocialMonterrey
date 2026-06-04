@@ -736,10 +736,10 @@ function buildDashboard(ventas, compras, resumen, mes){
 
   const añoActual = new Date().getFullYear();
   const periodoTxt = mes==='todos' ? 'Acumulado Anual' : MESES_NAMES[mes]+' '+añoActual;
-  document.getElementById('periodoLabel').textContent = periodoTxt;
+  const _pl=document.getElementById('periodoLabel'); if(_pl) _pl.textContent = periodoTxt;
 
   // Hero stats
-  document.getElementById('heroStats').innerHTML=`
+  const _hs=document.getElementById('heroStats'); if(_hs) _hs.innerHTML=`
     <div style="text-align:right">
       <div style="font-size:9px;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Ventas</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold)">${$m(totalVentas)}</div>
@@ -912,8 +912,8 @@ function buildDashboard(ventas, compras, resumen, mes){
 
   // ── Tabla eventos — usa Resumen por Evento para "Todos", filtrado para mes específico
   const tablaData = mes==='todos' ? allResumen : resumen;
-  document.getElementById('evCount').textContent=tablaData.length+' eventos';
-  document.getElementById('evCountBadge').textContent=tablaData.length+' eventos';
+  const _ec=document.getElementById('evCount'); if(_ec) _ec.textContent=tablaData.length+' eventos';
+  const _ecb=document.getElementById('evCountBadge'); if(_ecb) _ecb.textContent=tablaData.length+' eventos';
   const tbody=document.getElementById('tablaEv'); tbody.innerHTML='';
   tablaData.forEach((e,i)=>{
     const mar=(e.margen||0).toFixed(1);
@@ -979,7 +979,7 @@ function buildDashboard(ventas, compras, resumen, mes){
       <div class="ss">${s.sub}</div>
     </div>`).join('');
 
-  document.getElementById('lastUpdate').textContent=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+  const _lu=document.getElementById('lastUpdate'); if(_lu) _lu.textContent=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
 }
 
 // ── CATALOGOS (populated after data loads) ──────────────────────────────
