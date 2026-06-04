@@ -187,22 +187,6 @@ tbody td{padding:13px 20px;font-size:12px;color:var(--dark)}
 
 /* ── DIVIDERS & SPACING ── */
 .divider{height:1px;background:var(--border);margin:8px 0}
-
-.servicios-header{display:grid;grid-template-columns:1fr 130px 100px 120px 40px;gap:10px;padding:8px 14px;background:var(--dark2);border-radius:8px;margin-bottom:8px}
-.servicios-header span{font-size:9px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
-.servicio-row{display:grid;grid-template-columns:1fr 130px 100px 120px 40px;gap:10px;align-items:center;margin-bottom:8px;background:var(--surface2);border-radius:10px;padding:10px 14px}
-.servicio-row input{background:white;border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:8px 10px;font-size:12px;font-family:'Montserrat',sans-serif;width:100%;outline:none}
-.servicio-row input:focus{border-color:var(--gold)}
-.srv-subtotal{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold);text-align:right}
-.total-evento-bar{background:var(--dark2);border-radius:14px;padding:20px 24px;margin:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
-.teb-left .teb-label{font-size:9px;color:rgba(255,255,255,.4);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
-.teb-left .teb-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold)}
-.teb-right{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
-.teb-item{display:flex;flex-direction:column;gap:5px;min-width:120px}
-.teb-item label{font-size:9px;color:rgba(255,255,255,.4);font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.teb-item input,.teb-item select{background:rgba(255,255,255,.08);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:8px 12px;font-size:12px;font-family:'Montserrat',sans-serif;color:white;outline:none;width:100%}
-.teb-item select option{background:var(--dark2);color:white}
-.teb-saldo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold-l);padding:8px 0}
 footer{text-align:center;padding:40px 0 0;font-size:10px;color:var(--muted);letter-spacing:1px}
 
 /* FORM SECTIONS */
@@ -387,12 +371,90 @@ footer strong{color:var(--gold)}
   <!-- NAV TABS -->
   <div class="tabs-bar">
     <button class="tab active" onclick="showTab('dashboard')"><i class="ti ti-chart-bar"></i> Dashboard</button>
-    <button class="tab" onclick="showTab('venta')"><i class="ti ti-confetti"></i> Nuevo Evento</button>
+    <button class="tab" onclick="showTab('evento')"><i class="ti ti-confetti"></i> Nuevo Evento</button>
     <button class="tab" onclick="showTab('regalo')"><i class="ti ti-gift"></i> Nuevo Regalo</button>
+    <button class="tab" onclick="showTab('venta')"><i class="ti ti-confetti"></i> Nuevo Evento</button>
+    <button class="tab" onclick="showTab('compra')"><i class="ti ti-shopping-cart"></i> Nueva Compra</button>
     <button class="tab" onclick="showTab('calendario')"><i class="ti ti-calendar"></i> Calendario</button>
   </div>
 
-    <!-- FORM: NUEVO REGALO -->
+  <!-- FORM: NUEVO EVENTO -->
+  <div id="tab-evento" class="tab-content" style="display:none">
+    <div class="form-wrap" style="max-width:860px">
+      <div class="form-header">
+        <div class="fh-icon">🎉</div>
+        <div><h2>Nuevo Evento</h2><p>Captura todos los detalles del evento</p></div>
+      </div>
+
+      <div class="form-section-title">👤 Datos del Cliente</div>
+      <div class="form-grid form-grid-3">
+        <div class="fg"><label>Nombre del Cliente *</label><input type="text" id="ev-cliente" placeholder="Nombre completo"></div>
+        <div class="fg"><label>WhatsApp *</label><input type="tel" id="ev-whatsapp" placeholder="+52 81 1234 5678"></div>
+        <div class="fg"><label>¿Cómo nos contactó?</label>
+          <select id="ev-contacto">
+            <option>Instagram</option><option>Facebook</option><option>WhatsApp directo</option>
+            <option>Recomendación</option><option>Google</option><option>TikTok</option><option>Otro</option>
+          </select></div>
+      </div>
+
+      <div class="form-section-title">📅 Detalles del Evento</div>
+      <div class="form-grid form-grid-3">
+        <div class="fg"><label>Fecha del Evento *</label><input type="date" id="ev-fecha"></div>
+        <div class="fg"><label>Hora de Inicio</label><input type="time" id="ev-hora-inicio"></div>
+        <div class="fg"><label>Hora de Montaje</label><input type="time" id="ev-hora-montaje"></div>
+        <div class="fg"><label>Hora de Recolección</label><input type="time" id="ev-hora-recoleccion"></div>
+        <div class="fg"><label>Temática *</label><input type="text" id="ev-tematica" placeholder="Ej: Frozen, Graduación, XV Años..."></div>
+        <div class="fg"><label>Evento / Temporada * <span style="font-size:9px;color:var(--gold);font-weight:600">(nuevo = se agrega al catálogo)</span></label>
+          <input type="text" id="ev-evento" placeholder="Ej: Cumpleaños Sofía, Boda García..." list="eventos-datalist" autocomplete="off">
+          <datalist id="eventos-datalist"></datalist></div>
+      </div>
+
+      <div class="form-section-title">📍 Ubicación</div>
+      <div class="form-grid">
+        <div class="fg" style="grid-column:1/-1"><label>Dirección del Evento</label>
+          <input type="text" id="ev-direccion" placeholder="Calle, número, colonia, ciudad..."></div>
+        <div class="fg" style="grid-column:1/-1"><label>Link de Ubicación (Google Maps)</label>
+          <input type="url" id="ev-maps" placeholder="https://maps.google.com/..."></div>
+      </div>
+
+      <div class="form-section-title">💰 Costo y Pagos</div>
+      <div class="form-grid form-grid-3">
+        <div class="fg"><label>Costo Total del Evento *</label><input type="number" id="ev-total" placeholder="0.00" step="0.01"></div>
+        <div class="fg"><label>Anticipo Recibido</label><input type="number" id="ev-anticipo" placeholder="0.00" step="0.01"></div>
+        <div class="fg fg-calc"><label>Saldo Pendiente</label><div class="calc-val" id="ev-saldo">$0.00</div></div>
+        <div class="fg"><label>Método de Pago</label>
+          <select id="ev-metodo">
+            <option>Efectivo</option><option>Transferencia</option><option>Tarjeta débito</option>
+            <option>TD-Empresarial</option><option>TD-Banregio</option><option>Otro</option>
+          </select></div>
+        <div class="fg"><label>Estatus del Evento</label>
+          <select id="ev-estatus">
+            <option>Cotización</option><option>Confirmado</option><option>En proceso</option>
+            <option>Completado</option><option>Cancelado</option>
+          </select></div>
+      </div>
+
+      <div class="form-section-title">📝 Notas y Propuesta</div>
+      <div class="form-grid">
+        <div class="fg" style="grid-column:1/-1"><label>Descripción / Notas del Evento</label>
+          <textarea id="ev-notas" rows="3" placeholder="Detalles adicionales, requerimientos especiales..."></textarea></div>
+        <div class="fg"><label>Imagen Propuesta Visual (URL)</label>
+          <input type="url" id="ev-propuesta" placeholder="Link de imagen o Google Drive..."></div>
+        <div class="fg"><label>Contrato (URL Google Drive)</label>
+          <input type="url" id="ev-contrato" placeholder="Link del PDF en Google Drive..."></div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="showTab('dashboard')">Cancelar</button>
+        <button class="btn-save" id="btn-evento" onclick="guardarEvento()">
+          <span id="btn-evento-txt">Guardar Evento</span>
+        </button>
+      </div>
+      <div id="ev-msg" class="form-msg" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- FORM: NUEVO REGALO -->
   <div id="tab-regalo" class="tab-content" style="display:none">
     <div class="form-wrap" style="max-width:860px">
       <div class="form-header">
@@ -539,7 +601,112 @@ footer strong{color:var(--gold)}
     </div>
   </div>
 
-</div><!-- end tab-dashboard -->
+  <!-- FORM: NUEVA COMPRA -->
+  <div id="tab-compra" class="tab-content" style="display:none">
+    <div class="form-wrap">
+      <div class="form-header">
+        <div class="fh-icon">🛍️</div>
+        <div><h2>Registrar Compra</h2><p>Se guardará directo en tu Google Sheets</p></div>
+      </div>
+      <div class="form-grid">
+        <div class="fg"><label>Fecha *</label><input type="date" id="c-fecha"></div>
+        <div class="fg"><label>Evento / Temporada * <span style="font-size:9px;color:var(--gold);font-weight:600">(nuevo = se agrega)</span></label>
+          <input type="text" id="c-evento" placeholder="Escribe o elige un evento..." list="eventos-datalist-c" autocomplete="off">
+          <datalist id="eventos-datalist-c"></datalist></div>
+        <div class="fg"><label>Tienda / Comercio *</label>
+          <select id="c-tienda"><option value="">Selecciona...</option></select></div>
+        <div class="fg"><label>Categoría / Producto *</label>
+          <select id="c-categoria"><option value="">Selecciona...</option></select></div>
+        <div class="fg"><label>Descripción *</label>
+          <input type="text" id="c-desc" placeholder="¿Qué compraste?"></div>
+        <div class="fg"><label>Cantidad *</label>
+          <input type="number" id="c-cantidad" min="1" value="1"></div>
+        <div class="fg"><label>Precio Unitario *</label>
+          <input type="number" id="c-precio" placeholder="0.00" step="0.01"></div>
+        <div class="fg fg-calc">
+          <label>Total Compra</label>
+          <div class="calc-val" id="c-total">/bin/sh.00</div>
+        </div>
+        <div class="fg"><label>Método de Pago</label>
+          <select id="c-metodo">
+            <option>Efectivo</option><option>Transferencia</option>
+            <option>Tarjeta débito</option><option>Tarjeta crédito</option>
+            <option>TD-Empresarial</option><option>TD-Banregio</option><option>Otro</option>
+          </select></div>
+        <div class="fg"><label>Notas</label>
+          <input type="text" id="c-notas" placeholder="Observaciones..."></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="showTab('dashboard')">Cancelar</button>
+        <button class="btn-save" id="btn-compra" onclick="guardarCompra()">
+          <span id="btn-compra-txt">Guardar Compra</span>
+        </button>
+      </div>
+      <div id="c-msg" class="form-msg" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD TAB -->
+  <div id="tab-dashboard">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <h2>Dashboard Ejecutivo</h2>
+        <p>MOMENTOS · EVENTOS · REGALOS · MONTERREY</p>
+      </div>
+      <div id="heroStats" style="display:flex;gap:32px;flex-wrap:wrap"></div>
+    </div>
+  </div>
+
+  <!-- MONTH SELECTOR -->
+  <div class="month-bar">
+    <span class="mb-label">📅 Período:</span>
+    <div class="month-pills" id="monthPills"></div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- KPIs -->
+    <div class="sec">Indicadores Clave <span id="periodoLabel"></span></div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <!-- METAS -->
+    <div class="sec">Metas del Período</div>
+    <div class="meta-grid" id="metaGrid"></div>
+
+    <!-- CHARTS -->
+    <div class="sec">Análisis Visual</div>
+    <div class="charts">
+      <div class="cc wide"><h3>Ventas vs Compras por Mes</h3><div class="csub">Comparativo mensual del año</div><div class="ch tall"><canvas id="cMensual"></canvas></div></div>
+      <div class="cc"><h3>Ventas por Evento</h3><div class="csub">Participación en ventas totales</div><div class="ch"><canvas id="cEventos"></canvas></div></div>
+      <div class="cc"><h3>Margen por Evento</h3><div class="csub">% ganancia · meta 70%</div><div class="ch"><canvas id="cMargen"></canvas></div></div>
+      <div class="cc"><h3>Estado de Cobros</h3><div class="csub">Cobrado vs saldo pendiente</div><div class="ch"><canvas id="cCobros"></canvas></div></div>
+      <div class="cc"><h3>Compras por Categoría</h3><div class="csub">Distribución del gasto</div><div class="ch"><canvas id="cCats"></canvas></div></div>
+    </div>
+
+    <!-- TABLA EVENTOS -->
+    <div class="sec">Detalle por Evento <span id="evCount"></span></div>
+    <div class="tcard">
+      <div class="thead-bar"><h3>Todos los Eventos</h3><span id="evCountBadge"></span></div>
+      <div class="tscroll">
+        <table><thead><tr>
+          <th>Evento</th><th>Ventas</th><th>Compras</th><th>Ganancia</th><th>Margen</th><th>Obj. Venta</th><th>Estado</th>
+        </tr></thead>
+        <tbody id="tablaEv"></tbody></table>
+      </div>
+    </div>
+
+    <!-- COBROS -->
+    <div class="sec">Cobros Pendientes 🔔</div>
+    <div class="cobros" id="cobrosGrid"></div>
+
+    <!-- SEMÁFORO -->
+    <div class="sec">Salud del Negocio</div>
+    <div class="sem-grid" id="semGrid"></div>
+
+    </div><!-- end tab-dashboard -->
   <footer><strong>Social Monterrey</strong> · Momentos | Eventos | Regalos · Dashboard en vivo</footer>
   </div>
 </div>
@@ -736,10 +903,10 @@ function buildDashboard(ventas, compras, resumen, mes){
 
   const añoActual = new Date().getFullYear();
   const periodoTxt = mes==='todos' ? 'Acumulado Anual' : MESES_NAMES[mes]+' '+añoActual;
-  const _pl=document.getElementById('periodoLabel'); if(_pl) _pl.textContent = periodoTxt;
+  document.getElementById('periodoLabel').textContent = periodoTxt;
 
   // Hero stats
-  const _hs=document.getElementById('heroStats'); if(_hs) _hs.innerHTML=`
+  document.getElementById('heroStats').innerHTML=`
     <div style="text-align:right">
       <div style="font-size:9px;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Ventas</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold)">${$m(totalVentas)}</div>
@@ -912,8 +1079,8 @@ function buildDashboard(ventas, compras, resumen, mes){
 
   // ── Tabla eventos — usa Resumen por Evento para "Todos", filtrado para mes específico
   const tablaData = mes==='todos' ? allResumen : resumen;
-  const _ec=document.getElementById('evCount'); if(_ec) _ec.textContent=tablaData.length+' eventos';
-  const _ecb=document.getElementById('evCountBadge'); if(_ecb) _ecb.textContent=tablaData.length+' eventos';
+  document.getElementById('evCount').textContent=tablaData.length+' eventos';
+  document.getElementById('evCountBadge').textContent=tablaData.length+' eventos';
   const tbody=document.getElementById('tablaEv'); tbody.innerHTML='';
   tablaData.forEach((e,i)=>{
     const mar=(e.margen||0).toFixed(1);
@@ -979,7 +1146,7 @@ function buildDashboard(ventas, compras, resumen, mes){
       <div class="ss">${s.sub}</div>
     </div>`).join('');
 
-  const _lu=document.getElementById('lastUpdate'); if(_lu) _lu.textContent=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('lastUpdate').textContent=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
 }
 
 // ── CATALOGOS (populated after data loads) ──────────────────────────────
@@ -1036,148 +1203,309 @@ function showTab(tab){
   document.getElementById('tab-dashboard').style.display = tab==='dashboard'?'block':'none';
   if(tab!=='dashboard') document.getElementById('tab-'+tab).style.display='block';
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  const tabMap={dashboard:0,venta:1,regalo:2,calendario:3};
+  const tabMap={dashboard:0,evento:1,regalo:2,venta:3,compra:4,calendario:5};
   const idx=tabMap[tab]??0;
   document.querySelectorAll('.tab')[idx]?.classList.add('active');
   if(tab==='calendario') renderCalendario();
-  else if(tab==='venta'){ populateCatalogos(); if(!document.querySelector('#v-servicios-list .servicio-row')) agregarServicio(); }
   else if(tab==='regalo'){ populateCatalogos(); if(!document.querySelector('#rg-productos-list .producto-row')) agregarProducto(); }
   else if(tab!=='dashboard') populateCatalogos();
 }
 
-// ── PRODUCTOS REGALO ─────────────────────────────────────────────────────
-let productoCount=0;
-function agregarProducto(){
-  productoCount++;
-  const id=productoCount;
-  const div=document.createElement('div');
-  div.className='producto-row'; div.id='prod-'+id;
-  div.innerHTML='<input type="text" placeholder="Producto / descripcion" id="prod-desc-'+id+'">'
-    +'<input type="number" placeholder="Cant." min="1" value="1" id="prod-cant-'+id+'" oninput="calcRegalo()">'
-    +'<input type="number" placeholder="Precio" step="0.01" id="prod-precio-'+id+'" oninput="calcRegalo()">'
-    +'<button class="btn-remove" onclick="quitarProducto('+id+')">X</button>';
-  document.getElementById('rg-productos-list').appendChild(div);
-}
-function quitarProducto(id){
-  document.getElementById('prod-'+id).remove(); calcRegalo();
-}
-function getProductos(){
-  const prods=[];
-  document.querySelectorAll('#rg-productos-list .producto-row').forEach(function(r){
-    const n=r.id.replace('prod-','');
-    const desc=(document.getElementById('prod-desc-'+n)||{}).value||'';
-    const cant=parseFloat((document.getElementById('prod-cant-'+n)||{}).value)||0;
-    const precio=parseFloat((document.getElementById('prod-precio-'+n)||{}).value)||0;
-    if(desc&&precio) prods.push({desc:desc,cant:cant,precio:precio,subtotal:cant*precio});
-  });
-  return prods;
-}
-function calcRegalo(){
-  const prods=getProductos();
-  const horario=(document.getElementById('rg-horario')||{}).value;
-  let total=prods.reduce(function(s,p){return s+p.subtotal;},0);
-  if(horario==='especial') total+=99;
-  const anticipo=parseFloat((document.getElementById('rg-anticipo')||{}).value)||0;
-  const fmt=function(n){return '$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});};
-  const td=document.getElementById('rg-total-display'); if(td) td.textContent=fmt(total);
-  const tc=document.getElementById('rg-total-calc'); if(tc) tc.textContent=fmt(total);
-  const ts=document.getElementById('rg-saldo'); if(ts) ts.textContent=fmt(total-anticipo);
-}
-
 // ── CALC TOTALS LIVE ──────────────────────────────────────────────────────
-function getMesNombre(fechaStr){
-  const parts=fechaStr.split('-');
-  if(parts.length<2) return '';
-  return MESES_NAMES[parseInt(parts[1])-1]||'';
-}
-
 let servicioCount=0;
 function agregarServicio(){
   servicioCount++;
   const id=servicioCount;
   const div=document.createElement('div');
   div.className='servicio-row'; div.id='srv-'+id;
-  div.innerHTML='<input type="text" placeholder="Descripcion del servicio" id="srv-desc-'+id+'">'
-    +'<input type="number" placeholder="0.00" step="0.01" id="srv-precio-'+id+'" oninput="calcEvento2()">'
-    +'<input type="number" placeholder="1" min="1" value="1" id="srv-cant-'+id+'" oninput="calcEvento2()">'
-    +'<div class="srv-subtotal" id="srv-sub-'+id+'">/bin/sh.00</div>'
-    +'<button class="btn-remove" onclick="quitarServicio('+id+')">X</button>';
+  div.innerHTML=`
+    <input type="text" placeholder="Descripción del servicio" id="srv-desc-${id}">
+    <input type="number" placeholder="0.00" step="0.01" id="srv-precio-${id}" oninput="calcEvento2()">
+    <input type="number" placeholder="1" min="1" value="1" id="srv-cant-${id}" oninput="calcEvento2()">
+    <div class="srv-subtotal" id="srv-sub-${id}">$0.00</div>
+    <button class="btn-remove" onclick="quitarServicio(${id})"><i class="ti ti-trash" style="font-size:15px"></i></button>`;
   document.getElementById('v-servicios-list').appendChild(div);
 }
-function quitarServicio(id){ document.getElementById('srv-'+id).remove(); calcEvento2(); }
+function quitarServicio(id){
+  document.getElementById('srv-'+id)?.remove(); calcEvento2();
+}
 function getServicios(){
+  const rows=document.querySelectorAll('#v-servicios-list .servicio-row');
   const svs=[];
-  document.querySelectorAll('#v-servicios-list .servicio-row').forEach(function(r){
-    const n=r.id.replace('srv-','');
-    const desc=(document.getElementById('srv-desc-'+n)||{}).value||'';
-    const precio=parseFloat((document.getElementById('srv-precio-'+n)||{}).value)||0;
-    const cant=parseFloat((document.getElementById('srv-cant-'+n)||{}).value)||1;
+  rows.forEach(r=>{
+    const idNum=r.id.replace('srv-','');
+    const desc=document.getElementById('srv-desc-'+idNum)?.value||'';
+    const precio=parseFloat(document.getElementById('srv-precio-'+idNum)?.value)||0;
+    const cant=parseFloat(document.getElementById('srv-cant-'+idNum)?.value)||1;
     const sub=precio*cant;
-    const el=document.getElementById('srv-sub-'+n);
-    if(el) el.textContent='$'+sub.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
-    if(desc&&precio) svs.push({desc:desc,precio:precio,cant:cant,subtotal:sub});
+    const subEl=document.getElementById('srv-sub-'+idNum);
+    if(subEl) subEl.textContent='$'+sub.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+    if(desc&&precio) svs.push({desc,precio,cant,subtotal:sub});
   });
   return svs;
 }
 function calcEvento2(){
-  const total=getServicios().reduce(function(s,v){return s+v.subtotal;},0);
-  const ant=parseFloat((document.getElementById('v-anticipo')||{}).value)||0;
-  const fmt=function(n){return '$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});};
-  const td=document.getElementById('v-total-display'); if(td) td.textContent=fmt(total);
-  const ts=document.getElementById('v-saldo'); if(ts) ts.textContent=fmt(total-ant);
+  const svs=getServicios();
+  const total=svs.reduce((s,v)=>s+v.subtotal,0);
+  const anticipo=parseFloat(document.getElementById('v-anticipo')?.value)||0;
+  const fmt=n=>'$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const td=document.getElementById('v-total-display');
+  const ts=document.getElementById('v-saldo');
+  if(td) td.textContent=fmt(total);
+  if(ts) ts.textContent=fmt(total-anticipo);
 }
+function calcVenta(){ calcEvento2(); }
+function calcCompra(){
+  const cant=parseFloat(document.getElementById('c-cantidad').value)||0;
+  const precio=parseFloat(document.getElementById('c-precio').value)||0;
+  document.getElementById('c-total').textContent='$'+(cant*precio).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+// Attach live calc listeners after DOM ready
+document.addEventListener('DOMContentLoaded',()=>{
+  ['v-cantidad','v-precio','v-anticipo'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcVenta));
+  ['c-cantidad','c-precio'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcCompra));
+});
+
+// ── MONTH NAME ────────────────────────────────────────────────────────────
+function getMesNombre(fechaStr){
+  const parts=fechaStr.split('-');
+  if(parts.length<2) return '';
+  return MESES_NAMES[parseInt(parts[1])-1]||'';
+}
+
+// ── SAVE VENTA ────────────────────────────────────────────────────────────
+async function guardarVenta(){
+  const fecha  = document.getElementById('v-fecha').value;
+  const evento = document.getElementById('v-evento').value;
+  const cliente= document.getElementById('v-cliente').value;
+  const producto=document.getElementById('v-producto').value;
+  const cantidad=parseFloat(document.getElementById('v-cantidad').value)||0;
+  const precio =parseFloat(document.getElementById('v-precio').value)||0;
+
+  if(!fecha||!evento||!cliente||!producto||!precio){
+    showMsg('v','⚠️  Completa los campos obligatorios (*)','err'); return;
+  }
+
+  await addEventoToCatalogo(document.getElementById('v-evento').value);
+  const btn=document.getElementById('btn-venta');
+  const txt=document.getElementById('btn-venta-txt');
+  btn.disabled=true; txt.textContent='Guardando...';
+
+  const payload={
+    tipo:'venta',
+    fecha:fecha.split('-').reverse().join('/'),
+    mes:getMesNombre(fecha),
+    cliente, contacto:document.getElementById('v-contacto').value,
+    producto, evento,
+    descripcion:document.getElementById('v-notas').value,
+    cantidad, precio,
+    anticipo:parseFloat(document.getElementById('v-anticipo').value)||0,
+    metodo:document.getElementById('v-metodo').value,
+    notas:document.getElementById('v-notas').value
+  };
+
+  try{
+    const resp=await fetch(GAS,{method:'POST',body:JSON.stringify(payload)});
+    const data=await resp.json();
+    if(data.status==='ok'){
+      showMsg('v','✅ Venta guardada correctamente en Google Sheets','ok');
+      resetForm('v');
+      setTimeout(()=>loadAll(),1500);
+    } else { throw new Error(data.message||'Error desconocido'); }
+  } catch(e){
+    showMsg('v','❌ Error al guardar: '+e.message,'err');
+  } finally { btn.disabled=false; txt.textContent='Guardar Venta'; }
+}
+
+// ── SAVE COMPRA ───────────────────────────────────────────────────────────
+async function guardarCompra(){
+  const fecha    = document.getElementById('c-fecha').value;
+  const evento   = document.getElementById('c-evento').value;
+  const tienda   = document.getElementById('c-tienda').value;
+  const categoria= document.getElementById('c-categoria').value;
+  const desc     = document.getElementById('c-desc').value;
+  const cantidad = parseFloat(document.getElementById('c-cantidad').value)||0;
+  const precio   = parseFloat(document.getElementById('c-precio').value)||0;
+
+  if(!fecha||!evento||!tienda||!categoria||!desc||!precio){
+    showMsg('c','⚠️  Completa los campos obligatorios (*)','err'); return;
+  }
+
+  await addEventoToCatalogo(document.getElementById('c-evento').value);
+  const btn=document.getElementById('btn-compra');
+  const txt=document.getElementById('btn-compra-txt');
+  btn.disabled=true; txt.textContent='Guardando...';
+
+  const payload={
+    tipo:'compra',
+    fecha:fecha.split('-').reverse().join('/'),
+    tienda, categoria, evento, descripcion:desc, cantidad, precio,
+    metodo:document.getElementById('c-metodo').value,
+    notas:document.getElementById('c-notas').value
+  };
+
+  try{
+    const resp=await fetch(GAS,{method:'POST',body:JSON.stringify(payload)});
+    const data=await resp.json();
+    if(data.status==='ok'){
+      showMsg('c','✅ Compra guardada correctamente en Google Sheets','ok');
+      resetForm('c');
+      setTimeout(()=>loadAll(),1500);
+    } else { throw new Error(data.message||'Error desconocido'); }
+  } catch(e){
+    showMsg('c','❌ Error al guardar: '+e.message,'err');
+  } finally { btn.disabled=false; txt.textContent='Guardar Compra'; }
+}
+
+function showMsg(prefix,msg,type){
+  const el=document.getElementById(prefix+'-msg');
+  el.textContent=msg; el.className='form-msg '+type; el.style.display='block';
+  setTimeout(()=>el.style.display='none',5000);
+}
+
+function resetForm(prefix){
+  const today=new Date().toISOString().split('T')[0];
+  [prefix+'-fecha',prefix+'-cliente',prefix+'-contacto',prefix+'-producto',
+   prefix+'-cantidad',prefix+'-precio',prefix+'-anticipo',prefix+'-notas',
+   prefix+'-desc'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    if(el.type==='date') el.value=today;
+    else if(el.type==='number'&&id.includes('cantidad')) el.value=1;
+    else el.value='';
+  });
+  [prefix+'-evento',prefix+'-tienda',prefix+'-categoria'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.selectedIndex=0;
+  });
+  calcVenta(); calcCompra();
+}
+
 function resetFormNuevoEvento(){
   const today=new Date().toISOString().split('T')[0];
-  ['v-evento','v-tematica','v-cliente','v-whatsapp','v-hora-evento','v-hora-montaje',
-   'v-hora-desmontaje','v-notas','v-anticipo','v-propuesta','v-contrato'].forEach(function(id){
+  ['v-evento','v-tematica','v-cliente','v-whatsapp','v-hora-evento',
+   'v-hora-montaje','v-hora-desmontaje','v-notas','v-anticipo'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
   const fd=document.getElementById('v-fecha'); if(fd) fd.value=today;
   const pl=document.getElementById('v-lugar'); if(pl) pl.selectedIndex=0;
   document.getElementById('v-servicios-list').innerHTML='';
-  servicioCount=0; agregarServicio(); calcEvento2();
+  servicioCount=0;
+  agregarServicio();
+  calcEvento2();
 }
-async function guardarVenta(){
-  const fecha=document.getElementById('v-fecha').value;
-  const evento=document.getElementById('v-evento').value;
-  const tematica=document.getElementById('v-tematica').value;
-  const cliente=document.getElementById('v-cliente').value;
-  const whatsapp=document.getElementById('v-whatsapp').value;
-  const servicios=getServicios();
-  const total=servicios.reduce(function(s,v){return s+v.subtotal;},0);
-  if(!fecha||!evento||!tematica||!cliente||!whatsapp||!servicios.length){
-    showMsg('v','Completa los campos obligatorios y agrega al menos un servicio','err'); return;
+
+// ── GLOBALS FOR PEDIDOS ──────────────────────────────────────────────────
+let allPedidosEventos=[], allPedidosRegalos=[];
+let calMes=new Date().getMonth(), calAno=new Date().getFullYear();
+
+// ── PRODUCTO ROWS (Regalo) ────────────────────────────────────────────────
+let productoCount=0;
+function agregarProducto(){
+  productoCount++;
+  const id=productoCount;
+  const div=document.createElement('div');
+  div.className='producto-row'; div.id='prod-'+id;
+  div.innerHTML=`
+    <input type="text" placeholder="Producto / descripción" id="prod-desc-${id}">
+    <input type="number" placeholder="Cant." min="1" value="1" id="prod-cant-${id}" oninput="calcRegalo()">
+    <input type="number" placeholder="Precio" step="0.01" id="prod-precio-${id}" oninput="calcRegalo()">
+    <button class="btn-remove" onclick="quitarProducto(${id})"><i class="ti ti-trash" style="font-size:15px"></i></button>`;
+  document.getElementById('rg-productos-list').appendChild(div);
+}
+function quitarProducto(id){
+  document.getElementById('prod-'+id)?.remove(); calcRegalo();
+}
+function getProductos(){
+  const rows=document.querySelectorAll('#rg-productos-list .producto-row');
+  const prods=[];
+  rows.forEach(r=>{
+    const idNum=r.id.replace('prod-','');
+    const desc=document.getElementById('prod-desc-'+idNum)?.value||'';
+    const cant=parseFloat(document.getElementById('prod-cant-'+idNum)?.value)||0;
+    const precio=parseFloat(document.getElementById('prod-precio-'+idNum)?.value)||0;
+    if(desc&&precio) prods.push({desc,cant,precio,subtotal:cant*precio});
+  });
+  return prods;
+}
+function calcRegalo(){
+  const prods=getProductos();
+  const horario=document.getElementById('rg-horario')?.value;
+  let total=prods.reduce((s,p)=>s+p.subtotal,0);
+  if(horario==='especial') total+=99;
+  const anticipo=parseFloat(document.getElementById('rg-anticipo')?.value)||0;
+  const fmt=n=>'$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const td=document.getElementById('rg-total-display');
+  const tc=document.getElementById('rg-total-calc');
+  const ts=document.getElementById('rg-saldo');
+  if(td) td.textContent=fmt(total);
+  if(tc) tc.textContent=fmt(total);
+  if(ts) ts.textContent=fmt(total-anticipo);
+}
+function calcEvento(){
+  const total=parseFloat(document.getElementById('ev-total')?.value)||0;
+  const anticipo=parseFloat(document.getElementById('ev-anticipo')?.value)||0;
+  const el=document.getElementById('ev-saldo');
+  if(el) el.textContent='$'+(total-anticipo).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function toggleEnvio(){
+  const mod=document.getElementById('rg-modalidad')?.value;
+  const envioFields=document.getElementById('rg-envio-fields');
+  if(envioFields) envioFields.style.display=mod==='envio'?'block':'none';
+}
+function toggleHorarioEspecial(){
+  const h=document.getElementById('rg-horario')?.value;
+  const wrap=document.getElementById('rg-hora-especial-wrap');
+  if(wrap) wrap.style.display=h==='especial'?'flex':'none';
+  calcRegalo();
+}
+
+// ── SAVE EVENTO ───────────────────────────────────────────────────────────
+async function guardarEvento(){
+  const cliente=document.getElementById('ev-cliente').value;
+  const whatsapp=document.getElementById('ev-whatsapp').value;
+  const fecha=document.getElementById('ev-fecha').value;
+  const tematica=document.getElementById('ev-tematica').value;
+  const evento=document.getElementById('ev-evento').value;
+  const total=parseFloat(document.getElementById('ev-total').value)||0;
+
+  if(!cliente||!whatsapp||!fecha||!tematica||!evento||!total){
+    showMsg('ev','⚠️  Completa los campos obligatorios (*)','err'); return;
   }
-  await addEventoToCatalogo(evento);
-  const btn=document.getElementById('btn-venta');
-  const txt=document.getElementById('btn-venta-txt');
+  const btn=document.getElementById('btn-evento');
+  const txt=document.getElementById('btn-evento-txt');
   btn.disabled=true; txt.textContent='Guardando...';
-  const anticipo=parseFloat(document.getElementById('v-anticipo').value)||0;
+
+  const anticipo=parseFloat(document.getElementById('ev-anticipo').value)||0;
   const payload={
-    tipo:'venta_evento',
+    tipo:'evento',
+    cliente, whatsapp,
     fecha:fecha.split('-').reverse().join('/'),
     mes:getMesNombre(fecha),
-    evento:evento, tematica:tematica, cliente:cliente, whatsapp:whatsapp,
-    lugar:document.getElementById('v-lugar').value,
-    horaEvento:document.getElementById('v-hora-evento').value,
-    horaMontaje:document.getElementById('v-hora-montaje').value,
-    horaDesmontaje:document.getElementById('v-hora-desmontaje').value,
-    servicios:JSON.stringify(servicios),
-    total:total, anticipo:anticipo, saldo:total-anticipo,
-    metodo:document.getElementById('v-metodo').value,
-    notas:document.getElementById('v-notas').value,
-    propuesta:document.getElementById('v-propuesta').value,
-    contrato:document.getElementById('v-contrato').value,
-    contactoOrigen:document.getElementById('v-contacto-origen').value,
+    horaInicio:document.getElementById('ev-hora-inicio').value,
+    horaMontaje:document.getElementById('ev-hora-montaje').value,
+    horaRecoleccion:document.getElementById('ev-hora-recoleccion').value,
+    tematica, evento,
+    direccion:document.getElementById('ev-direccion').value,
+    maps:document.getElementById('ev-maps').value,
+    contacto:document.getElementById('ev-contacto').value,
+    total, anticipo, saldo:total-anticipo,
+    metodo:document.getElementById('ev-metodo').value,
+    estatus:document.getElementById('ev-estatus').value,
+    notas:document.getElementById('ev-notas').value,
+    propuesta:document.getElementById('ev-propuesta').value,
+    contrato:document.getElementById('ev-contrato').value,
   };
+
   try{
     const resp=await fetch(GAS,{method:'POST',body:JSON.stringify(payload)});
     const data=await resp.json();
     if(data.status==='ok'){
-      showMsg('v','Evento guardado correctamente','ok');
-      resetFormNuevoEvento(); setTimeout(function(){loadAll();},1500);
-    } else { throw new Error(data.message||'Error'); }
-  } catch(e){ showMsg('v','Error: '+e.message,'err'); }
+      showMsg('ev','✅ Evento guardado correctamente','ok');
+      resetFormEvento();
+      setTimeout(()=>loadAll(),1500);
+    } else throw new Error(data.message||'Error');
+  } catch(e){ showMsg('ev','❌ Error: '+e.message,'err'); }
   finally{ btn.disabled=false; txt.textContent='Guardar Evento'; }
 }
 
@@ -1416,10 +1744,11 @@ function parsePedidosRegalos(rows){
 
 // ── ATTACH LISTENERS FOR NEW FORMS ───────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
+  ['c-cantidad','c-precio'].forEach(id=>document.getElementById(id)?.addEventListener('input',calcCompra));
   document.getElementById('ev-total')?.addEventListener('input',calcEvento);
   document.getElementById('ev-anticipo')?.addEventListener('input',calcEvento);
-  // Don't call agregarProducto/agregarServicio here — tabs are hidden
-  // They get called when tab is opened via showTab()
+  agregarProducto();
+  agregarServicio();
 });
 
 async function loadAll(){
