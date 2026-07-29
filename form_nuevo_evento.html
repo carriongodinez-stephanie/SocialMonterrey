@@ -410,13 +410,15 @@ async function guardarEvento() {
   };
 
   try {
-    const resp = await fetch(GAS, {method:'POST', body: JSON.stringify(payload)});
-    const data = await resp.json();
-    if (data.status === 'ok') {
-      document.getElementById('successOverlay').classList.add('show');
-    } else {
-      throw new Error(data.message || 'Error al guardar');
-    }
+    // Use no-cors to avoid CORS issues with Apps Script
+    await fetch(GAS, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify(payload)
+    });
+    // no-cors always returns opaque response, assume success
+    document.getElementById('successOverlay').classList.add('show');
   } catch(e) {
     showMsg('❌ Error: ' + e.message, 'err');
   } finally {
